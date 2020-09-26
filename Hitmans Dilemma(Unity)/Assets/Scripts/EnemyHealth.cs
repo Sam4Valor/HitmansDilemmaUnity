@@ -6,6 +6,8 @@ public class EnemyHealth : MonoBehaviour
 {
     float Attacked;
     public float health = 150f;
+    float TerrorDMG;
+    float TerrorHealth = 150f;
 
     // Start is called before the first frame update
     void Start()
@@ -13,10 +15,12 @@ public class EnemyHealth : MonoBehaviour
 
     }
 
-    public void DamageEnemy(float atk)
+    public void DamageEnemy(float atk, float Ter)
     {
         Attacked= atk;
         health -= Attacked;
+        TerrorDMG = Ter;
+        TerrorHealth -= TerrorDMG;
 
     }
 
