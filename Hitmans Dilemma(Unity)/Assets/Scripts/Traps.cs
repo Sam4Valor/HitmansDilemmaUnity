@@ -28,13 +28,10 @@ public class Traps : MonoBehaviour
     public bool Light = false;
 
     [Header("Trap Stats")]
+    [Header("This applies to all levels of noise, so damage can be dealt three times to an enemy if they are close enough.")]
     [Range(0, 100)]
     public int atk = 0;
 
-    [Header("Used for noise decrease grouping")]
-    public int NoiseLevelStep = 0;
-    // example bomb has noise level of 8 and step of 2 (8/2= 4 noise and attack will decraese every 4 by Damper number.
-    
 
     [Range(0, 10)]
     [Header("How many the player can carry")]
@@ -50,16 +47,11 @@ public class Traps : MonoBehaviour
     public float AutoDetonate = 0f;
 
     [Range(0, 10)]
-    public int NoiseLevel = 0;
-
-    [Header("Alert System parameters")]
-    [Range(1, 10)]
-    public int NonAlert = 0;
-    [Range(1, 10)]
-    public int InvestigativeAlert = 0;
-    [Range(1, 10)]
-    public int Alert = 0;
-
+    public int AlertRadius = 0;
+    [Range(0, 10)]
+    public int InvestigationRadius = 0;
+    [Range(0, 10)]
+    public int NonAlertRadius = 0;
 
     [Header("is used to set off trap!! very important")]
     public bool Triggered = false;
@@ -70,25 +62,21 @@ public class Traps : MonoBehaviour
     public LayerMask Enemy;
     EnemyHealth EHealth;
 
-    
-
-    public Collider[] Enemies;
-    // private int direction;
-
-    //Noise Variables
-    public float NoiseN; // Noise Non-Alerts reach out of 10
-    public float NoiseI; // Noise Investigative Alert reach out of 10 and after Noise Non-Alert
-    public float NoiseA; // Noise Full-Alert reach out of 10 after Noise Investigative Alert
+    Vector3 EPos;
 
 
+    public Collider[] Alert;
+    public Collider[] NonAlerted;
+    public Collider[] investigating;
+
+    bool NonAlert = false;
+    bool Investigating = false;
+    bool Alerted = false;
 
     // Start is called before the first frame update
     void Start()
     {
         Origin = transform.position;
-        NoiseN = NonAlert;
-        NoiseI = InvestigativeAlert;
-        NoiseA = Alert;
     }
 
     // Update is called once per frame
@@ -96,46 +84,110 @@ public class Traps : MonoBehaviour
     {
         // autodetonate variable
         AutoDetonate -= Time.deltaTime;
-        if (AutoDetonate < 0)
-        {
-            
-        }
+
         if (Triggered || AutoDetonate < 0)
         {
-            CollectEnemies();
+            CollectNonAlertedEnemies();
+            CollectInvestegatingEnemies();
+            CollectAlertedEnemies();
         }
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, Radius * NoiseLevel);
+        Gizmos.DrawWireSphere(transform.position, Radius * AlertRadius);
 
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, Radius * InvestigationRadius);
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, Radius * NonAlertRadius);
     }
 
-    public void CollectEnemies ()
+    public void CollectAlertedEnemies()
     {
-        Enemies = Physics.OverlapSphere(Origin, Radius * NoiseLevel, Enemy);
+        Alert = Physics.OverlapSphere(Origin, Radius * AlertRadius, Enemy);
+        
         // Grab Health scripts from enemies and send to Damage function
-        for (int i = 0; i < Enemies.Length; i++)
+        for (int i = 0; i < Alert.Length; i++)
         {
-            EHealth = Enemies[i].GetComponent<EnemyHealth>();
+            EHealth = Alert[i].GetComponent<EnemyHealth>();
+            Alerted = true;
+            Investigating = false;
+            NonAlert = false;
+
             DamageEnemies();
         }
+
         Triggered = false;
-        Destroy(this.gameObject);
+       //  Destroy(this.gameObject);
+    }
+
+    public void CollectInvestegatingEnemies()
+    {
+        investigating = Physics.OverlapSphere(Origin, Radius * InvestigationRadius, Enemy);
+
+        // Grab Health scripts from enemies and send to Damage function
+        for (int i = 0; i < investigating.Length; i++)
+        {
+            EHealth = investigating[i].GetComponent<EnemyHealth>();
+            Alerted = false;
+            Investigating = true;
+            NonAlert = false;
+
+            DamageEnemies();
+        }
+       // Triggered = false;
+       //  Destroy(this.gameObject);
+    }
+
+    public void CollectNonAlertedEnemies()
+    {
+        NonAlerted = Physics.OverlapSphere(Origin, Radius * NonAlertRadius, Enemy);
+
+        // Grab Health scripts from enemies and send to Damage function
+        for (int i = 0; i < NonAlerted.Length; i++)
+        {
+            EHealth = NonAlerted[i].GetComponent<EnemyHealth>();
+            Alerted = false;
+            Investigating = false;
+            NonAlert = true;
+
+            DamageEnemies();
+        }
+        //Triggered = false;
+        //  Destroy(this.gameObject);
     }
 
     void DamageEnemies()
     {
         //Send damage to enemy Health Scripts
-        EHealth.DamageEnemy(atk,Terror);
+        if (Alerted)
+        { 
+             EHealth.DamageEnemy(atk, Terror);
+             EHealth.Alerted = true;
+
+
+         
+        }
+        if (Investigating && !Alerted)
+        {
+            EHealth.DamageEnemy(atk, Terror);
+            EHealth.Investigating = true;
+
+
+        
+        }
+        if (NonAlert && !Investigating && !Alerted)
+        {
+            EHealth.DamageEnemy(atk, Terror);
+            EHealth.NotAlerted = true;
+
+
+         
+        }
     }
 
-    void NoiseCalculation()
-    { 
     
-    
-    }
-       
 }

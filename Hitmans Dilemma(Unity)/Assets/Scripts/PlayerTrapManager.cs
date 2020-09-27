@@ -157,6 +157,7 @@ public class PlayerTrapManager : MonoBehaviour
             Instantiate(LightTrap, this.transform);
             LightStock -= 1;
             DeployLight = false;
+            Debug.Log("Light Trap has been deployed!!");
         }
     
     }
