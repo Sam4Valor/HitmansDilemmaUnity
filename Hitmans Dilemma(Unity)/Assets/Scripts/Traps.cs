@@ -63,7 +63,7 @@ public class Traps : MonoBehaviour
     EnemyHealth EHealth;
 
     Vector3 EPos;
-
+    string SName;
 
     public Collider[] Alert;
     public Collider[] NonAlerted;
@@ -77,6 +77,8 @@ public class Traps : MonoBehaviour
     void Start()
     {
         Origin = transform.position;
+        SName = Name;
+        this.transform.name = SName;
     }
 
     // Update is called once per frame
@@ -156,8 +158,7 @@ public class Traps : MonoBehaviour
 
             DamageEnemies();
         }
-        //Triggered = false;
-        //  Destroy(this.gameObject);
+      
     }
 
     void DamageEnemies()
@@ -187,6 +188,8 @@ public class Traps : MonoBehaviour
 
          
         }
+        Triggered = false;
+        Destroy(this.gameObject);
     }
 
     
