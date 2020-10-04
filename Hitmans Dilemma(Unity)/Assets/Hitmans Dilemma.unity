@@ -440,7 +440,7 @@ MonoBehaviour:
   lastPlatform: {fileID: 1022523888}
   Created: 1
   SecondCreated: 0
-  SecondPlatform: 0
+  SecondPlatform: 1
 --- !u!1001 &2078409504
 PrefabInstance:
   m_ObjectHideFlags: 0
