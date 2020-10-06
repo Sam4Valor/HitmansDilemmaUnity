@@ -123,6 +123,86 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &445056246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 445056248}
+  - component: {fileID: 445056247}
+  - component: {fileID: 445056249}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &445056247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445056246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5690313c709a2b74f8e523740af013ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IRAInfluence: 100
+  IRALevelsDefeated: 0
+  ItalianInfluence: 100
+  ItalianLevelsDefeated: 0
+  CartelInfluence: 100
+  CartelLevelsDefeated: 0
+  YakuzaInfluence: 100
+  YakuzaLevelsDefeated: 0
+  RussianInfluence: 100
+  RussianLevelsDefeated: 0
+  MostEffected: 000000000000000000000000000000000000000000000000
+  SecondEffected: 000000000000000000000000000000000000000000000000
+  ThirdEffected: 000000000000000000000000000000000000000000000000
+  LeastEffected: 000000000000000000000000000000000000000000000000
+--- !u!4 &445056248
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445056246}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.4324665, y: 48.464108, z: -16.239792}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &445056249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445056246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95817861437ccde48afc4a47a06be136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Influence: {fileID: 445056247}
+  Mob:
+  - 
+  - 
+  - 
+  - 
+  - 
+  MobName: 
+  SelectMob: 0
+  Done: 0
 --- !u!850595691 &575531445
 LightingSettings:
   m_ObjectHideFlags: 0

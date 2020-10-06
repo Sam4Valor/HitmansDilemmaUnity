@@ -12,7 +12,8 @@ public class LevelComplete : MonoBehaviour
 
     int deduction;
 
-    int SelectMob;
+    public string MobName;
+    public int SelectMob;
 
     int mobSel;
     int MobIn;
@@ -30,8 +31,9 @@ public class LevelComplete : MonoBehaviour
         Mob[1] = "Yakuza";
         Mob[2] = "Cartel";
         Mob[3] = "Russian";
-        Mob[0] = "Italian";
+        Mob[4] = "Italian";
 
+        MobName = Mob[SelectMob];
         
     }
 
@@ -41,18 +43,17 @@ public class LevelComplete : MonoBehaviour
         {
             // 
             mobSel = Influence.YakuzaLevelsDefeated;
-            deduction = Influence.MostEffected[mobSel];
+   
 
             Influence.YakuzaInfluence -= 20;
 
-            MobIn = Influence.IRAInfluence;
-
-            Influence.CalculateInfluence(MobIn, deduction);
+          
             Influence.YakuzaLevelsDefeated += 1;
-           
-            SecondEffected(Influence.CartelInfluence);
-            ThirdEffected(Influence.ItalianInfluence);
-            LeastEffected(Influence.RussianInfluence);
+
+            Influence.CartelInfluence += Influence.MostEffected[mobSel];
+            Influence.IRAInfluence += Influence.SecondEffected[mobSel];
+            Influence.RussianInfluence += Influence.ThirdEffected[mobSel];
+            Influence.ItalianInfluence += Influence.LeastEffected[mobSel];
 
             Done = false;
         }
@@ -60,96 +61,67 @@ public class LevelComplete : MonoBehaviour
         if (Mob[SelectMob] == "IRA")
         {
             mobSel = Influence.IRALevelsDefeated;
-            deduction = Influence.MostEffected[mobSel];
-
+            
             Influence.IRAInfluence -= 20;
 
-            MobIn = Influence.CartelInfluence;
-
-            Influence.CalculateInfluence(MobIn, deduction);
             Influence.IRALevelsDefeated += 1;
 
-            SecondEffected(Influence.ItalianInfluence);
-            ThirdEffected(Influence.RussianInfluence);
-            LeastEffected(Influence.YakuzaInfluence);
+            Influence.RussianInfluence+= Influence.MostEffected[mobSel];
+            Influence.ItalianInfluence += Influence.SecondEffected[mobSel];
+            Influence.YakuzaInfluence += Influence.ThirdEffected[mobSel];
+            Influence.CartelInfluence += Influence.LeastEffected[mobSel];
+
+            Done = false;
+
         }
 
         if (Mob[SelectMob] == "Italian")
         {
             mobSel = Influence.ItalianLevelsDefeated;
-            deduction = Influence.MostEffected[mobSel];
-
+         
             Influence.ItalianInfluence -= 20;
 
-            MobIn = Influence.RussianInfluence;
+            Influence.YakuzaInfluence += Influence.MostEffected[mobSel];
+            Influence.CartelInfluence += Influence.SecondEffected[mobSel];
+            Influence.IRAInfluence += Influence.ThirdEffected[mobSel];
+            Influence.RussianInfluence += Influence.LeastEffected[mobSel];
 
-
-            Influence.CalculateInfluence(MobIn, deduction);
-            Influence.ItalianLevelsDefeated += 1;
-
-            SecondEffected(Influence.YakuzaInfluence);
-            ThirdEffected(Influence.IRAInfluence);
-            LeastEffected(Influence.CartelInfluence);
-
+            Done = false;
         }
         if (Mob[SelectMob] == "Russian")
         {
             mobSel = Influence.RussianLevelsDefeated;
-            deduction = Influence.MostEffected[mobSel];
-
+        
+            
             Influence.RussianInfluence -= 20;
+            Influence.ItalianInfluence += Influence.MostEffected[mobSel];
+            Influence.YakuzaInfluence += Influence.SecondEffected[mobSel];
+            Influence.CartelInfluence += Influence.ThirdEffected[mobSel];
+            Influence.IRAInfluence += Influence.LeastEffected[mobSel];
 
-            MobIn = Influence.YakuzaInfluence;
 
-
-            Influence.CalculateInfluence(MobIn, deduction);
             Influence.RussianLevelsDefeated += 1;
-
-            SecondEffected(Influence.IRAInfluence);
-            ThirdEffected(Influence.CartelInfluence);
-            LeastEffected(Influence.ItalianInfluence);
+            Done = false;
         }
 
         if (Mob[SelectMob] == "Cartel")
         {
             mobSel = Influence.CartelLevelsDefeated;
-            deduction = Influence.MostEffected[mobSel];
-
             Influence.CartelInfluence -= 20;
 
-            MobIn = Influence.ItalianInfluence;
 
-
-            Influence.CalculateInfluence(MobIn, deduction);
             Influence.RussianLevelsDefeated += 1;
+            Influence.IRAInfluence += Influence.MostEffected[mobSel];
+            Influence.RussianInfluence += Influence.SecondEffected[mobSel];
+            Influence.ItalianInfluence += Influence.ThirdEffected[mobSel];
+            Influence.YakuzaInfluence += Influence.LeastEffected[mobSel];
 
-            SecondEffected(Influence.RussianInfluence);
-            ThirdEffected(Influence.YakuzaInfluence);
-            LeastEffected(Influence.IRAInfluence);
+            Done = false;
         }
     }
 
-    void SecondEffected(int SecondInfluence)
-    {
-        deduction = Influence.SecondEffected[mobSel];
-        MobIn = SecondInfluence;
-        Influence.CalculateInfluence(MobIn, deduction);
-    }
-
-    void ThirdEffected(int ThirdInfluence)
-    { 
-        deduction = Influence.ThirdEffected[mobSel];
-        MobIn = ThirdInfluence;
-        Influence.CalculateInfluence(MobIn, deduction);
-    }
-
-    void LeastEffected(int LeastInfluence)
-    {
-        deduction = Influence.LeastEffected[mobSel];
-        MobIn = LeastInfluence;
-        Influence.CalculateInfluence(MobIn, deduction);
-    }
-    
+ 
+  
     
     // Update is called once per frame
     void Update()
