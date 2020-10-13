@@ -38,8 +38,12 @@ public class EnemyHealth : MonoBehaviour
     bool TwoReset = false;
     bool Out = false;
 
-    // script calls for scripts.
-    RotateAround StarOneScript;
+    Vector3 StarOneStart;
+    Vector3 StarTwoStart;
+    Vector3 StarThreeStart;
+
+   // script calls for scripts.
+   RotateAround StarOneScript;
     RotateAround StarTwoScript;
     RotateAround StarThreeScript;
 
@@ -47,6 +51,10 @@ public class EnemyHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StarOneStart = StarOne.transform.position;
+        StarTwoStart = StarTwo.transform.position;
+        StarThreeStart = StarThree.transform.position;
+
         StarOne.SetActive(false);
         StarTwo.SetActive(false);
         StarThree.SetActive(false);
@@ -108,14 +116,19 @@ public class EnemyHealth : MonoBehaviour
     void KnockOut()
     {
         // set stars to active
+        StarOne.transform.position = StarOneStart;
         StarOne.gameObject.SetActive (true);
         StarOneScript.Alive = false;
-        
+
+        StarTwo.transform.position = StarTwoStart;
         StarTwo.gameObject.SetActive(true);
         StarTwoScript.Alive = false;
 
+        StarThree.transform.position = StarThreeStart;
         StarThree.gameObject.SetActive(true);
         StarThreeScript.Alive = false;
+
+
     }
 
     void Revive()
@@ -144,16 +157,19 @@ public class EnemyHealth : MonoBehaviour
         }
         if (revive < StarOneT && !OneReset)
         {
+            
             StarOne.gameObject.SetActive(false);
             OneReset = true;
         }
         if (revive < StarTwoT && !TwoReset)
         {
+            
             StarTwo.gameObject.SetActive(false);
             TwoReset = true;
         }
         if (revive <= 0)
         {
+            
             StarThree.gameObject.SetActive(false);
             Revive();
         }

@@ -60,15 +60,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\TeleporterRandomizer.cs" />
+    <Compile Include="Assets\Scripts\LevelComplete.cs" />
     <Compile Include="Assets\Scripts\EnemyHealth.cs" />
+    <Compile Include="Assets\Scripts\EnemySpawnerGen.cs" />
     <Compile Include="Assets\Scripts\PlayerTrapManager.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\TeleportLink.cs" />
     <Compile Include="Assets\Scripts\PontToCamera.cs" />
+    <Compile Include="Assets\Scripts\InfluenceCal.cs" />
     <Compile Include="Assets\Scripts\RotateAround.cs" />
     <Compile Include="Assets\Scripts\PlatformRandomizer.cs" />
     <Compile Include="Assets\Scripts\Traps.cs" />
-    <Compile Include="Assets\Scripts\EnemySpawnerGen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
